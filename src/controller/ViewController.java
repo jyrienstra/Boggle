@@ -24,6 +24,8 @@ public class ViewController implements Initializable {
     @FXML private AnchorPane anchorPane;
     private ArrayList<Pane> selectedPanes;
 
+    private Pane lastClickedPane = null;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.selectedPanes = new ArrayList<>();
@@ -129,15 +131,30 @@ public class ViewController implements Initializable {
                 //Add listeners to this pain
                 //When this pain is clicked
                 pane.setOnMouseClicked(e->{
-//                    System.out.println("Row: "+ GridPane.getRowIndex(pane));
-//                    System.out.println("column: "+ GridPane.getColumnIndex(pane));
+                    System.out.println("Row: "+ GridPane.getRowIndex(pane));
+                    System.out.println("column: "+ GridPane.getColumnIndex(pane));
 
-
-                    //Select or deselect item
-                    if(!isAlreadySelected(pane)){
+                    if(lastClickedPane == null) {
+                        //Er is nog geen pane ingedrukt, zet de laatst geklikte pane
+                        lastClickedPane = pane;
                         selectItem(pane);
-                    }else{
-                        deselectItem(pane);
+                    }
+                    else {
+                        //Er was al een laatste pane, check of de nieuwe aangrezend is.
+                        //Aangrezend is een pane als boven, onder, links en rechts niet meer dan 1 verschilt.
+
+//                        System.out.println("Verschil row: " + Math.abs(GridPane.getRowIndex(lastClickedPane).intValue() - GridPane.getRowIndex(pane).intValue()));
+//                        System.out.println("Verschil column: " + Math.abs(GridPane.getColumnIndex(lastClickedPane).intValue() - GridPane.getColumnIndex(pane).intValue()));
+
+                        if(Math.abs(GridPane.getRowIndex(lastClickedPane).intValue() - GridPane.getRowIndex(pane).intValue()) <= 1 &&
+                            Math.abs(GridPane.getColumnIndex(lastClickedPane).intValue() - GridPane.getColumnIndex(pane).intValue()) <= 1) {
+                            lastClickedPane = pane;
+
+                            if(!isAlreadySelected(pane))
+                                selectItem(pane);
+                            else
+                                deselectItem(pane);
+                        }
                     }
 
                     System.out.println(getCurrentWord());
