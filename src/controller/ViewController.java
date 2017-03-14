@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import model.ChooseFile;
 
 import java.awt.event.MouseEvent;
 import java.lang.reflect.Array;
@@ -25,6 +26,7 @@ public class ViewController implements Initializable {
     @FXML private AnchorPane anchorPane;
     @FXML private TextField textField;
     private ArrayList<Pane> selectedPanes;
+    private ArrayList<String> wordList;
     private int wordsFound;
 
     private Pane lastClickedPane = null;
@@ -35,6 +37,10 @@ public class ViewController implements Initializable {
         textField.setEditable(false);
         textField.setMouseTransparent(true);
         textField.setFocusTraversable(false);
+
+        //Choose wordlist from textfile(seperated by line)
+        ChooseFile chooseFile = new ChooseFile();
+        wordList = chooseFile.getChosenFileInList();
 
         //Current selected panes are stored in this list
         this.selectedPanes = new ArrayList<>();
