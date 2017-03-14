@@ -22,12 +22,10 @@ public class ViewController implements Initializable {
     private NumberBinding gridWidthHeight;
     private int gridSize = 3;
     @FXML private AnchorPane anchorPane;
-    private ArrayList<String> currentWord;
     private ArrayList<Pane> selectedPanes;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.currentWord = new ArrayList<>();
         this.selectedPanes = new ArrayList<>();
 
         System.out.println("Loaded our main view");
@@ -44,6 +42,25 @@ public class ViewController implements Initializable {
         return alphabet.charAt(random.nextInt(alphabet.length()));
     }
 
+    /**
+     * Return the current selected word
+     * @return
+     */
+    public String getCurrentWord(){
+        String currentWord = "";
+        for(Pane pane: selectedPanes){
+            //get label
+            for(Node node: pane.getChildren()) {
+                if (node instanceof Label) {
+                    //Get the label content
+                    Label currentLabel = (Label) node;
+                    currentWord = currentWord + currentLabel.getText();
+                }
+            }
+        }
+        return currentWord;
+    }
+
     //We know that a pane in this case is always 'unique'
     public boolean isAlreadySelected(Pane currentPane){
         //Check if pane is already selected
@@ -55,24 +72,22 @@ public class ViewController implements Initializable {
         return false;
     }
 
-    public void selectItem(Pane pane, Label label){
+    public void selectItem(Pane pane){
         //Color pane red when selected
         pane.setStyle(
                 "-fx-border-color:black;"+
                 "-fx-background-color:red;");
         //Add to selected collection
         selectedPanes.add(pane);
-        currentWord.add(label.getText()); //@todo will bug when deleting in different sequence
     }
 
-    public void deselectItem(Pane pane, Label label){
+    public void deselectItem(Pane pane){
         //Color pane back to original colors
         pane.setStyle(
                 "-fx-border-color:black;"+
                         "-fx-background-color:white;");
         //Add to selected collection
         selectedPanes.remove(pane);
-        currentWord.remove(label.getText()); //@todo will bug when deleting in different sequence
     }
 
     /**
@@ -118,23 +133,14 @@ public class ViewController implements Initializable {
 //                    System.out.println("column: "+ GridPane.getColumnIndex(pane));
 
 
-                    //get label
-                    for(Node node: pane.getChildren()){
-                        if(node instanceof Label){
-                            //Get the label content
-                            Label currentLabel = (Label) node;
-//                            System.out.println(currentLabel.getText());
-
-                            //Select or deselect item
-                            if(!isAlreadySelected(pane)){
-                                selectItem(pane, currentLabel);
-                            }else{
-                                deselectItem(pane, currentLabel);
-                            }
-                        }
+                    //Select or deselect item
+                    if(!isAlreadySelected(pane)){
+                        selectItem(pane);
+                    }else{
+                        deselectItem(pane);
                     }
 
-                    System.out.println(currentWord);
+                    System.out.println(getCurrentWord());
                 });
 
                 gridPane.add(pane,col,row);
