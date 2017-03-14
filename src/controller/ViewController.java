@@ -15,6 +15,7 @@ import javafx.scene.shape.Rectangle;
 import model.ChooseFile;
 
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.*;
@@ -40,7 +41,10 @@ public class ViewController implements Initializable {
 
         //Choose wordlist from textfile(seperated by line)
         ChooseFile chooseFile = new ChooseFile();
+        File file = new File("src/wordlist.txt"); //set default file to dutch
+        chooseFile.setFile(file);
         wordList = chooseFile.getChosenFileInList();
+        System.out.println(wordList);
 
         //Current selected panes are stored in this list
         this.selectedPanes = new ArrayList<>();

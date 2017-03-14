@@ -13,16 +13,30 @@ public class ChooseFile {
     final JFileChooser fc;
     File file;
 
+    /**
+     * Init
+     */
     public ChooseFile(){
         fc = new JFileChooser();
         fc.setDialogTitle("Choose word file");
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fc.setFileFilter(new TextFilter());
         fc.setCurrentDirectory(new File("."));
+    }
+
+    /**
+     * Manually set the file(trough code)
+     */
+    public void setFile(File f){
+        file = f;
+    }
+
+    /*
+     * Open a file
+     */
+    public void openFile(){
         int returnVal = fc.showOpenDialog(fc);
 
-
-        System.out.println("test");
         if(returnVal == JFileChooser.CANCEL_OPTION){
             //@todo close application when canceled?
         }else if(returnVal == JFileChooser.APPROVE_OPTION){
@@ -30,6 +44,11 @@ public class ChooseFile {
         }
     }
 
+    /**
+     * Convert a file to a array list containing words
+     * Every newline is a new word
+     * @return
+     */
     public ArrayList<String> getChosenFileInList(){
         ArrayList<String> list = new ArrayList<>();
         try {
