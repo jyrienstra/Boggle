@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -22,10 +23,18 @@ public class ViewController implements Initializable {
     private NumberBinding gridWidthHeight;
     private int gridSize = 3;
     @FXML private AnchorPane anchorPane;
+    @FXML private TextField textField;
     private ArrayList<Pane> selectedPanes;
+    private int wordsFound;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        //Textfield is a representation, can't be edited by the user
+        textField.setEditable(false);
+        textField.setMouseTransparent(true);
+        textField.setFocusTraversable(false);
+
+        //Current selected panes are stored in this list
         this.selectedPanes = new ArrayList<>();
 
         System.out.println("Loaded our main view");
@@ -140,6 +149,7 @@ public class ViewController implements Initializable {
                         deselectItem(pane);
                     }
 
+                    textField.setText(getCurrentWord());
                     System.out.println(getCurrentWord());
                 });
 
