@@ -47,6 +47,11 @@
                     <children>
                         <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
                             <Button text="Chance wordlist" onAction="#changeWordList"/>
+                            <Button text="Show wordlist" onAction="#showWordList">
+                                <VBox.margin>
+                                    <Insets top="8.0" />
+                                </VBox.margin>
+                            </Button>
                             <TextArea fx:id="currentAllowedWordsField" text="Current allowed words:">
                                 <VBox.margin>
                                     <Insets top="8.0" />
