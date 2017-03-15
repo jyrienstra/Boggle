@@ -11,6 +11,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.VBox?>
 <TabPane fx:id="tabPane" prefHeight="400.0" prefWidth="772.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ViewController">
     <tabs>
         <Tab fx:id="Boggle" text="Boggle">
@@ -39,6 +40,22 @@
                  </children>
              </AnchorPane>
          </content>
+        </Tab>
+        <Tab fx:id="Settings" text="Settings">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="451.0" prefWidth="800.0">
+                    <children>
+                        <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+                            <Button text="Chance wordlist" onAction="#changeWordList"/>
+                            <TextArea fx:id="currentAllowedWordsField" text="Current allowed words:">
+                                <VBox.margin>
+                                    <Insets top="8.0" />
+                                </VBox.margin>
+                            </TextArea>
+                        </VBox>
+                    </children>
+                </AnchorPane>
+            </content>
         </Tab>
     </tabs>
 </TabPane>

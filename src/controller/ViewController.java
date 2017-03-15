@@ -19,9 +19,11 @@ public class ViewController implements Initializable {
     @FXML private HBox hBox;
     @FXML private VBox vBox;
     @FXML private TextArea foundWordsField;
+    @FXML private TextArea currentAllowedWordsField;
     private ArrayList<Pane> selectedPanes;
     private ArrayList<String> wordList;
     private int wordsFound = 0;
+    private ChooseFile chooseFile;
 
     private Pane lastClickedPane = null;
 
@@ -35,13 +37,20 @@ public class ViewController implements Initializable {
         foundWordsField.setEditable(false);
         foundWordsField.setMouseTransparent(true);
         foundWordsField.setFocusTraversable(false);
+        //TextArea is a representation of the found words, so not editable by user
+        currentAllowedWordsField.setEditable(false);
+        currentAllowedWordsField.setFocusTraversable(false);
+
 
         //Choose wordlist from textfile(seperated by line)
-        ChooseFile chooseFile = new ChooseFile();
+        chooseFile = new ChooseFile();
         File file = new File("src/wordlist.txt"); //set default file to dutch
         chooseFile.setFile(file);
-        wordList = chooseFile.getChosenFileInList();
-        System.out.println(wordList);
+        this.wordList = chooseFile.getChosenFileInList();
+
+        //Add allowed words to textarea
+        currentAllowedWordsField.clear();
+        addAllowedWordsToTextArea(currentAllowedWordsField);
 
         //Current selected panes are stored in this list
         this.selectedPanes = new ArrayList<>();
@@ -59,6 +68,32 @@ public class ViewController implements Initializable {
 
         System.out.println("Loaded our main view");
         initGridPane(gridSize);
+    }
+
+
+    /**
+     * Call this when u want to change the current word list
+     * Uses a .txt file where each new line is a new word
+     */
+    public void changeWordList(){
+        chooseFile = new ChooseFile();
+        chooseFile.openFile();
+        this.wordList = chooseFile.getChosenFileInList();
+        System.out.println(wordList);
+
+        //Add allowed words to textarea
+        currentAllowedWordsField.clear();
+        addAllowedWordsToTextArea(currentAllowedWordsField);
+    }
+
+    /**
+     * Add current allowed words to textarea
+     */
+    public void addAllowedWordsToTextArea(TextArea textArea){
+        textArea.appendText("Allowed words:");
+        for(String allowedWord : wordList){
+            textArea.appendText("\n" + allowedWord);
+        }
     }
 
     /**
