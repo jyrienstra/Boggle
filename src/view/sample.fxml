@@ -30,7 +30,7 @@
                      <HBox layoutX="14.0" layoutY="316.0" prefHeight="31.0" prefWidth="744.0" fx:id="hBox" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
                          <children>
                              <Button text="Submit word" onAction="#submitWord"/>
-                             <TextField prefHeight="31.0" prefWidth="113.0" fx:id="currentWordField" text="1">
+                             <TextField prefHeight="31.0" prefWidth="113.0" fx:id="currentWordField">
                                  <HBox.margin>
                                      <Insets left="8.0" />
                                  </HBox.margin>
