@@ -26,7 +26,7 @@ public class ViewController implements Initializable {
     private int wordsFound = 0;
     private ChooseFile chooseFile;
 
-    private Pane lastClickedPane = null;
+    private Stack<Pane> clickedPaneStack;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -51,6 +51,9 @@ public class ViewController implements Initializable {
 
         //Current selected panes are stored in this list
         this.selectedPanes = new ArrayList<>();
+
+        //Clicked panes are stored in order in this stack
+        this.clickedPaneStack = new Stack<>();
 
         //Fix hbox position
         gridPane.widthProperty().addListener((observableValue, oldSceneWidth, newSceneWidth)->{
@@ -249,26 +252,22 @@ public class ViewController implements Initializable {
                     System.out.println("Row: "+ GridPane.getRowIndex(pane));
                     System.out.println("column: "+ GridPane.getColumnIndex(pane));
 
-                    if(lastClickedPane == null) {
-                        //Er is nog geen pane ingedrukt, zet de laatst geklikte pane
-                        lastClickedPane = pane;
+                    //add the pane to the stack
+                    if(clickedPaneStack.empty()) {
+                        clickedPaneStack.push(pane);
                         selectItem(pane);
                     }
+                    else if(isAlreadySelected(pane) && clickedPaneStack.peek() == pane) {
+                        deselectItem(pane);
+                        clickedPaneStack.pop();
+                    }
                     else {
-                        //Er was al een laatste pane, check of de nieuwe aangrezend is.
-                        //Aangrezend is een pane als boven, onder, links en rechts niet meer dan 1 verschilt.
+                        if(Math.abs(GridPane.getRowIndex(clickedPaneStack.peek()).intValue() - GridPane.getRowIndex(pane).intValue()) <= 1 &&
+                                Math.abs(GridPane.getColumnIndex(clickedPaneStack.peek()).intValue() - GridPane.getColumnIndex(pane).intValue()) <= 1 &&
+                                !isAlreadySelected(pane)) {
+                            clickedPaneStack.push(pane);
+                            selectItem(pane);
 
-//                        System.out.println("Verschil row: " + Math.abs(GridPane.getRowIndex(lastClickedPane).intValue() - GridPane.getRowIndex(pane).intValue()));
-//                        System.out.println("Verschil column: " + Math.abs(GridPane.getColumnIndex(lastClickedPane).intValue() - GridPane.getColumnIndex(pane).intValue()));
-
-                        if(Math.abs(GridPane.getRowIndex(lastClickedPane).intValue() - GridPane.getRowIndex(pane).intValue()) <= 1 &&
-                            Math.abs(GridPane.getColumnIndex(lastClickedPane).intValue() - GridPane.getColumnIndex(pane).intValue()) <= 1) {
-                            lastClickedPane = pane;
-
-                            if(!isAlreadySelected(pane))
-                                selectItem(pane);
-                            else
-                                deselectItem(pane);
                         }
                     }
 
