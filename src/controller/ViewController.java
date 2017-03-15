@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -27,6 +28,8 @@ public class ViewController implements Initializable {
     @FXML private AnchorPane anchorPane;
     @FXML private TextField currentWordField;
     @FXML private HBox hBox;
+    @FXML private VBox vBox;
+    @FXML private TextArea foundWordsField;
     private ArrayList<Pane> selectedPanes;
     private ArrayList<String> wordList;
     private int wordsFound;
@@ -39,6 +42,10 @@ public class ViewController implements Initializable {
         currentWordField.setEditable(false);
         currentWordField.setMouseTransparent(true);
         currentWordField.setFocusTraversable(false);
+        //TextArea is a representation of the found words, so not editable by user
+        foundWordsField.setEditable(false);
+        foundWordsField.setMouseTransparent(true);
+        foundWordsField.setFocusTraversable(false);
 
         //Choose wordlist from textfile(seperated by line)
         ChooseFile chooseFile = new ChooseFile();
@@ -52,13 +59,13 @@ public class ViewController implements Initializable {
 
         //Fix hbox position
         gridPane.widthProperty().addListener((observableValue, oldSceneWidth, newSceneWidth)->{
-            hBox.setLayoutX(gridPane.getLayoutX());
-            hBox.setLayoutY(gridPane.getLayoutY() + gridPane.getHeight());
+            hBox.setLayoutX(gridPane.getLayoutX() + 16);
+            hBox.setLayoutY(gridPane.getLayoutY() + gridPane.getHeight() + 16);
+
         });
         gridPane.heightProperty().addListener((observableValue, oldSceneWidth, newSceneWidth)->{
-            System.out.println(gridPane.getHeight());
-            hBox.setLayoutX(gridPane.getLayoutX());
-            hBox.setLayoutY(gridPane.getLayoutY() + gridPane.getHeight());
+            hBox.setLayoutX(gridPane.getLayoutX() + 16);
+            hBox.setLayoutY(gridPane.getLayoutY() + gridPane.getHeight() + 16);
         });
 
         System.out.println("Loaded our main view");
