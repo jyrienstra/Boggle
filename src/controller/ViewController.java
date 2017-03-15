@@ -26,6 +26,7 @@ public class ViewController implements Initializable {
     private int wordsFound = 0;
     private ChooseFile chooseFile;
 
+    private int clickedPaneColor = 255;
     private Stack<Pane> clickedPaneStack;
 
     @Override
@@ -167,10 +168,11 @@ public class ViewController implements Initializable {
     }
 
     public void selectItem(Pane pane){
+        this.clickedPaneColor -= 15;
         //Color pane red when selected
         pane.setStyle(
                 "-fx-border-color:black;"+
-                "-fx-background-color:red;");
+                "-fx-background-color: rgb(" + this.clickedPaneColor + ", 0, 0)");
         //Add to selected collection
         selectedPanes.add(pane);
     }
@@ -192,6 +194,8 @@ public class ViewController implements Initializable {
     }
 
     public void deselectItem(Pane pane){
+        this.clickedPaneColor += 15;
+
         //Color pane back to original colors
         pane.setStyle(
                 "-fx-border-color:black;"+
