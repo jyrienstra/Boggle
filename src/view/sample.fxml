@@ -35,6 +35,11 @@
                                      <Insets left="8.0" />
                                  </HBox.margin>
                              </TextField>
+                             <Button text="New board" onAction="#newBoard">
+                                 <HBox.margin>
+                                     <Insets left="8.0" />
+                                 </HBox.margin>
+                             </Button>
                          </children>
                      </HBox>
                  </children>

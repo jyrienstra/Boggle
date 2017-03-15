@@ -172,6 +172,22 @@ public class ViewController implements Initializable {
         selectedPanes.add(pane);
     }
 
+    /**
+     * Insert new values in the board
+     */
+    public void newBoard() {
+        for (Node node : gridPane.getChildren()) {
+            if (node instanceof Pane) {
+                for (Node n : ((Pane) node).getChildren()) {
+                    if (n instanceof Label) {
+                        Label currentLabel = (Label) n;
+                        currentLabel.setText(String.valueOf(getRandomCharacter()));
+                    }
+                }
+            }
+        }
+    }
+
     public void deselectItem(Pane pane){
         //Color pane back to original colors
         pane.setStyle(
@@ -214,11 +230,11 @@ public class ViewController implements Initializable {
                 //Fix hbox position
                 pane.widthProperty().addListener((observableValue, oldSceneWidth, newSceneWidth)->{
                     label.setLayoutX(20);
-                    System.out.println(label.layoutXProperty());
                     double lowestValue = Math.min(pane.getWidth(), pane.getHeight());
                     label.setFont(Font.font(lowestValue/1.5));
                 });
                 pane.heightProperty().addListener((observableValue, oldSceneWidth, newSceneWidth)->{
+                    label.setLayoutX(20);
                     double lowestValue = Math.min(pane.getWidth(), pane.getHeight());
                     label.setFont(Font.font(lowestValue/1.5));
                 });
