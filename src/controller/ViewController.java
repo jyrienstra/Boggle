@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 import model.ChooseFile;
 import java.io.File;
 import java.net.URL;
@@ -48,10 +49,6 @@ public class ViewController implements Initializable {
         chooseFile.setFile(file);
         this.wordList = chooseFile.getChosenFileInList();
 
-        //Add allowed words to textarea
-        currentAllowedWordsField.clear();
-        addAllowedWordsToTextArea(currentAllowedWordsField);
-
         //Current selected panes are stored in this list
         this.selectedPanes = new ArrayList<>();
 
@@ -80,7 +77,9 @@ public class ViewController implements Initializable {
         chooseFile.openFile();
         this.wordList = chooseFile.getChosenFileInList();
         System.out.println(wordList);
+    }
 
+    public void showWordList(){
         //Add allowed words to textarea
         currentAllowedWordsField.clear();
         addAllowedWordsToTextArea(currentAllowedWordsField);
