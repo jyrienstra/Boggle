@@ -23,9 +23,10 @@ import java.util.*;
 public class ViewController implements Initializable {
     @FXML private GridPane gridPane;
     private NumberBinding gridWidthHeight;
-    private int gridSize = 3;
+    private int gridSize = 4;
     @FXML private AnchorPane anchorPane;
-    @FXML private TextField textField;
+    @FXML private TextField currentWordField;
+    @FXML private HBox hBox;
     private ArrayList<Pane> selectedPanes;
     private ArrayList<String> wordList;
     private int wordsFound;
@@ -35,9 +36,9 @@ public class ViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //Textfield is a representation, can't be edited by the user
-        textField.setEditable(false);
-        textField.setMouseTransparent(true);
-        textField.setFocusTraversable(false);
+        currentWordField.setEditable(false);
+        currentWordField.setMouseTransparent(true);
+        currentWordField.setFocusTraversable(false);
 
         //Choose wordlist from textfile(seperated by line)
         ChooseFile chooseFile = new ChooseFile();
@@ -49,8 +50,35 @@ public class ViewController implements Initializable {
         //Current selected panes are stored in this list
         this.selectedPanes = new ArrayList<>();
 
+        //Fix hbox position
+        gridPane.widthProperty().addListener((observableValue, oldSceneWidth, newSceneWidth)->{
+            hBox.setLayoutX(gridPane.getLayoutX());
+            hBox.setLayoutY(gridPane.getLayoutY() + gridPane.getHeight());
+        });
+        gridPane.heightProperty().addListener((observableValue, oldSceneWidth, newSceneWidth)->{
+            System.out.println(gridPane.getHeight());
+            hBox.setLayoutX(gridPane.getLayoutX());
+            hBox.setLayoutY(gridPane.getLayoutY() + gridPane.getHeight());
+        });
+
         System.out.println("Loaded our main view");
         initGridPane(gridSize);
+    }
+
+    /**
+     * Submit a word and check if this word is in our wordlist
+     */
+    public void submitWord(){
+        String currentWord = currentWordField.getText();
+        if(wordList.contains(currentWord)){
+            //word is in our wordlist
+            System.out.println("A new word is found!");
+            wordsFound++;
+            //Delete found word from wordlist so it can't be found again
+            wordList.remove(currentWord);
+        }else{
+            System.out.println("This word does not exist in our wordpage");
+        }
     }
 
     /**
@@ -176,7 +204,7 @@ public class ViewController implements Initializable {
                         }
                     }
 
-                    textField.setText(getCurrentWord());
+                    currentWordField.setText(getCurrentWord());
                     System.out.println(getCurrentWord());
                 });
 
