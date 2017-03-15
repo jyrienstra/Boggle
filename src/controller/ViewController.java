@@ -210,8 +210,18 @@ public class ViewController implements Initializable {
 
                 //Position label in center of pane
                 Label label = new Label(String.valueOf(getRandomCharacter()));
-                label.layoutXProperty().bind(pane.widthProperty().subtract(pane.widthProperty().divide(2)));
-                label.layoutYProperty().bind(pane.heightProperty().subtract(pane.heightProperty().divide(2)));
+
+                //Fix hbox position
+                pane.widthProperty().addListener((observableValue, oldSceneWidth, newSceneWidth)->{
+                    label.setLayoutX(20);
+                    System.out.println(label.layoutXProperty());
+                    double lowestValue = Math.min(pane.getWidth(), pane.getHeight());
+                    label.setFont(Font.font(lowestValue/1.5));
+                });
+                pane.heightProperty().addListener((observableValue, oldSceneWidth, newSceneWidth)->{
+                    double lowestValue = Math.min(pane.getWidth(), pane.getHeight());
+                    label.setFont(Font.font(lowestValue/1.5));
+                });
 
 
 
