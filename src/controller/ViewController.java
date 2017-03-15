@@ -1,38 +1,27 @@
 package controller;
 
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.NumberBinding;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import model.ChooseFile;
-
-import java.awt.event.MouseEvent;
 import java.io.File;
-import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.*;
 
 public class ViewController implements Initializable {
     @FXML private GridPane gridPane;
-    private NumberBinding gridWidthHeight;
     private int gridSize = 4;
-    @FXML private AnchorPane anchorPane;
     @FXML private TextField currentWordField;
     @FXML private HBox hBox;
     @FXML private VBox vBox;
     @FXML private TextArea foundWordsField;
     private ArrayList<Pane> selectedPanes;
     private ArrayList<String> wordList;
-    private int wordsFound;
+    private int wordsFound = 0;
 
     private Pane lastClickedPane = null;
 
@@ -83,6 +72,9 @@ public class ViewController implements Initializable {
             wordsFound++;
             //Delete found word from wordlist so it can't be found again
             wordList.remove(currentWord);
+            //Add found word to our found word textarea
+            foundWordsField.appendText("\n" + currentWord);
+
         }else{
             System.out.println("This word does not exist in our wordpage");
         }
