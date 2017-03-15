@@ -85,9 +85,18 @@ public class ViewController implements Initializable {
      * @return A random character from the alphabet
      */
     public char getRandomCharacter(){
-        Random random = new Random();
-        String alphabet = "abcdefghijklmnopqrstuvwxyz";
-        return alphabet.charAt(random.nextInt(alphabet.length()));
+        //Make certain letters more frequent so it's easyer to make words
+        int chance = 1 + (int)(Math.random() * 1000);
+        if(chance > 500){
+            //Make these chars more frequent
+            String letterRange1 = "aeiuo"; //klinkers
+            Random random = new Random();
+            return letterRange1.charAt(random.nextInt(letterRange1.length()));
+        }else{
+            String letterRange2 = "bcdfghjklmnpqrstvwxyz"; //medeklinkers
+            Random random = new Random();
+            return letterRange2.charAt(random.nextInt(letterRange2.length()));
+        }
     }
 
     /**
