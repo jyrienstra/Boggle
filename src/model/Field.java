@@ -23,11 +23,11 @@ public class Field {
     }
 
     /**
-     * Get the value of the field
-     * @return char
+     * Get the string value of the field
+     * @return String
      */
-    public char getValue(){
-        return value;
+    public String getValue(){
+        return java.lang.Character.toString(value);
     }
 
     /**
@@ -38,5 +38,11 @@ public class Field {
         return neighBors;
     }
 
-
+    /**
+     * Return the ammount of neighbours of the currentfield
+     * @return int
+     */
+    public int getAmountOfNeighbours(){
+        return neighBors.size();
+    }
 }
