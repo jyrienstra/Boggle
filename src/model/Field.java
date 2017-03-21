@@ -9,6 +9,7 @@ import java.util.LinkedList;
 public class Field {
     char value;
     ArrayList<Field> neighBors = new ArrayList<>();
+    boolean used = false;
 
     public Field(){
         value = Character.getRandomCharacter();
@@ -44,5 +45,14 @@ public class Field {
      */
     public int getAmountOfNeighbours(){
         return neighBors.size();
+    }
+
+
+    public boolean isUsed(){
+        return used;
+    }
+
+    public void setUsed(boolean b){
+        used = b;
     }
 }

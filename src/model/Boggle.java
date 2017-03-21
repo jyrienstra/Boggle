@@ -1,6 +1,7 @@
 package model;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -96,25 +97,40 @@ public class Boggle {
             for(int col = 0; col < cols; col++){
                 Field currentField = grid[row][col];
 
-                findWord(currentField, currentField.getValue());
+                ArrayList<Field> dissalowedFields = new ArrayList();
+                getCombinations(currentField, currentField.getValue(), dissalowedFields);
             }
         }
     }
 
-    public void findWord(Field currentField, String currentString){
-        //Elke veld heeft een buur
-        //Stopconditie anders stackoverflow error
-        //
+    /**
+     * Get all combinations starting from a given field
+     * Appends a currentString so it can be called recursively for all the fields neighbours
+     * @param currentField The field you want to get the combinations from
+     * @param stringCombination Can be empty when starting
+     * @param disallowedFields Fields that are not allowed to be used for a combination, fields are also added to this list so a combination does not happen twice
+     */
+    public void getCombinations(Field currentField, String stringCombination, ArrayList disallowedFields){
+        //As long as we check a combo this field can't be used again
+        disallowedFields.add(currentField);
 
-        if(wordList.contains(currentString)){
-            System.out.println("Found word:" + currentString);
-        }
+//        if(wordList.contains(stringCombination)){
+//            System.out.println("Found a word: " + stringCombination);
+//        }
 
         for(Field neighbor: currentField.getNeighborList()){
-            String newString = currentString + neighbor.getValue();
-            System.out.println("Found word:" + newString);
-//            findWord(neighbor, newString);
+            //Check if the currentfield can be used
+            if(!disallowedFields.contains(neighbor)){
+                String newStringCombination = stringCombination + neighbor.getValue();
+                if(wordList.contains(newStringCombination)){
+                    System.out.println("Found a word: " + newStringCombination);
+                }
+                getCombinations(neighbor, newStringCombination, disallowedFields);
+            }
         }
+
+        //Field can be used again for a new combination
+        disallowedFields.remove(currentField);
     }
 
     /**
