@@ -15,7 +15,7 @@ import java.util.*;
 
 public class ViewController implements Initializable {
     @FXML private GridPane gridPane;
-    private int gridSize = 4;
+    private int gridSize = 3;
     @FXML private TextField currentWordField;
     @FXML private HBox hBox;
     @FXML private VBox vBox;
@@ -68,7 +68,7 @@ public class ViewController implements Initializable {
         });
 
         System.out.println("Loaded our main view");
-        initGridPane(gridSize);
+        init(gridSize);
     }
 
 
@@ -119,8 +119,8 @@ public class ViewController implements Initializable {
     }
 
     /**
-     * Get a random character from the alphabet
-     * @return A random character from the alphabet
+     * Get a random Character from the alphabet
+     * @return A random Character from the alphabet
      */
     public char getRandomCharacter(){
         //Make certain letters more frequent so it's easyer to make words
@@ -204,32 +204,35 @@ public class ViewController implements Initializable {
         selectedPanes.remove(pane);
     }
 
-    /**
-     * Initalize the GridPane
-     * @param gridSize
-     */
-    public void initGridPane(int gridSize){
-        int columns = gridSize;
-        int rows = gridSize;
-
+    public void initColumns(int columns){
         for(int i = 0; i < columns; i++) {
             ColumnConstraints column = new ColumnConstraints();
             column.setHgrow(Priority.SOMETIMES); //resize to screen
             gridPane.getColumnConstraints().add(column);
         }
+    }
+
+    public void initRows(int rows){
         for(int i = 0; i < rows; i++) {
             RowConstraints row = new RowConstraints();
             row.setVgrow(Priority.SOMETIMES);
             gridPane.getRowConstraints().add(row);
         }
+    }
 
+    public void initBoard(int gridSize){
+        //temporary
+        int columns = gridSize;
+        int rows = gridSize;
+
+        //create board and add random characters
         for(int col=0; col<gridSize; col++){
             for(int row=0; row<gridSize; row++){
                 Pane pane = new Pane();
                 pane.setStyle(
                         "-fx-background-color:white;" +
-                        "-fx-border-color: black;" +
-                        "-fx-border-width: 1 1 1 1;");
+                                "-fx-border-color: black;" +
+                                "-fx-border-width: 1 1 1 1;");
 
                 //Position label in center of pane
                 Label label = new Label(String.valueOf(getRandomCharacter()));
@@ -246,8 +249,6 @@ public class ViewController implements Initializable {
                     label.setFont(Font.font(lowestValue/1.5));
                 });
 
-
-
                 pane.getChildren().add(label);
 
                 //Add listeners to this pain
@@ -256,24 +257,7 @@ public class ViewController implements Initializable {
                     System.out.println("Row: "+ GridPane.getRowIndex(pane));
                     System.out.println("column: "+ GridPane.getColumnIndex(pane));
 
-                    //add the pane to the stack
-                    if(clickedPaneStack.empty()) {
-                        clickedPaneStack.push(pane);
-                        selectItem(pane);
-                    }
-                    else if(isAlreadySelected(pane) && clickedPaneStack.peek() == pane) {
-                        deselectItem(pane);
-                        clickedPaneStack.pop();
-                    }
-                    else {
-                        if(Math.abs(GridPane.getRowIndex(clickedPaneStack.peek()).intValue() - GridPane.getRowIndex(pane).intValue()) <= 1 &&
-                                Math.abs(GridPane.getColumnIndex(clickedPaneStack.peek()).intValue() - GridPane.getColumnIndex(pane).intValue()) <= 1 &&
-                                !isAlreadySelected(pane)) {
-                            clickedPaneStack.push(pane);
-                            selectItem(pane);
-
-                        }
-                    }
+                    clickPane(pane);
 
                     currentWordField.setText(getCurrentWord());
                     System.out.println(getCurrentWord());
@@ -282,5 +266,47 @@ public class ViewController implements Initializable {
                 gridPane.add(pane,col,row);
             }
         }
+    }
+
+    public void clickPane(Pane pane){
+        //add the pane to the stack
+        if(clickedPaneStack.empty()) {
+            clickedPaneStack.push(pane);
+            selectItem(pane);
+        }
+        else if(isAlreadySelected(pane) && clickedPaneStack.peek() == pane) {
+            deselectItem(pane);
+            clickedPaneStack.pop();
+        }
+        else {
+            //check currentpane with last pane added to the stack
+            if(isNeighbor(pane)){
+                clickedPaneStack.push(pane);
+                selectItem(pane);
+            }
+        }
+    }
+
+    /**
+     * Check if the pane is allowed to be clicked
+     * @param currentClickedPane
+     */
+    public boolean isNeighbor(Pane currentClickedPane){
+        if(Math.abs(GridPane.getRowIndex(clickedPaneStack.peek()).intValue() - GridPane.getRowIndex(currentClickedPane).intValue()) <= 1 &&
+                Math.abs(GridPane.getColumnIndex(clickedPaneStack.peek()).intValue() - GridPane.getColumnIndex(currentClickedPane).intValue()) <= 1 &&
+                !isAlreadySelected(currentClickedPane)) {
+
+            return true;
+        }
+        return false;
+    }
+    /**
+     * Initalize the GridPane
+     * @param gridSize
+     */
+    public void init(int gridSize){
+        initColumns(gridSize);
+        initRows(gridSize);
+        initBoard(gridSize);
     }
 }
