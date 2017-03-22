@@ -11,11 +11,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Boggle boggle = new Boggle(3);
-        boggle.printGrid();
-        boggle.printNeighbors();
-        boggle.solveGrid();
-        boggle.printFoundWords();
 
         Parent root = FXMLLoader.load(getClass().getResource("view/sample.fxml"));
         primaryStage.setTitle("Boggle");
