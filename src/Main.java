@@ -15,6 +15,7 @@ public class Main extends Application {
         boggle.printGrid();
         boggle.printNeighbors();
         boggle.solveGrid();
+        boggle.printFoundWords();
 
         Parent root = FXMLLoader.load(getClass().getResource("view/sample.fxml"));
         primaryStage.setTitle("Boggle");

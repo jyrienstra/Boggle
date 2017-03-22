@@ -4,6 +4,7 @@ import java.io.File;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 
 /**
  * Created by jouke on 21-3-2017.
@@ -14,6 +15,8 @@ public class Boggle {
     int cols;
     Dictionary dictionary = new Dictionary(new File("src/wordlist.txt"));
     ArrayList<String> wordList = dictionary.getWordList();
+    private HashSet<String> foundWords = new HashSet<>();
+
 
     public Boggle(int rowSize, int colSize){
         this.rows = rowSize;
@@ -104,6 +107,16 @@ public class Boggle {
     }
 
     /**
+     * Debugging purposes
+     */
+    public void printFoundWords(){
+        System.out.println("Found words:");
+        for(String word : foundWords){
+            System.out.println(word);
+        }
+    }
+
+    /**
      * Get all combinations starting from a given field
      * Appends a currentString so it can be called recursively for all the fields neighbours
      * @param currentField The field you want to get the combinations from
@@ -114,16 +127,16 @@ public class Boggle {
         //As long as we check a combo this field can't be used again
         disallowedFields.add(currentField);
 
-//        if(wordList.contains(stringCombination)){
-//            System.out.println("Found a word: " + stringCombination);
-//        }
+        if(wordList.contains(stringCombination)){
+            foundWords.add(stringCombination);
+        }
 
         for(Field neighbor: currentField.getNeighborList()){
             //Check if the currentfield can be used
             if(!disallowedFields.contains(neighbor)){
                 String newStringCombination = stringCombination + neighbor.getValue();
                 if(wordList.contains(newStringCombination)){
-                    System.out.println("Found a word: " + newStringCombination);
+                    foundWords.add(newStringCombination);
                 }
                 getCombinations(neighbor, newStringCombination, disallowedFields);
             }
