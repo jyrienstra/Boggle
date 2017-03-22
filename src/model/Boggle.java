@@ -95,7 +95,7 @@ public class Boggle {
      * Find all possible words in the current grid
      */
     public void solveGrid(){
-
+        long start_time = System.nanoTime();
         for(int row = 0; row < rows; row++){
             for(int col = 0; col < cols; col++){
                 Field currentField = grid[row][col];
@@ -104,6 +104,9 @@ public class Boggle {
                 getCombinations(currentField, currentField.getValue(), dissalowedFields);
             }
         }
+        long end_time = System.nanoTime();
+        double difference = (end_time - start_time)/1e6;
+        System.out.println("Solve grid methode takes: " + difference + " ms");
     }
 
     /**
