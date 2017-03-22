@@ -8,14 +8,17 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
+import model.Boggle;
 import model.ChooseFile;
+import model.Field;
+
 import java.io.File;
 import java.net.URL;
 import java.util.*;
 
 public class ViewController implements Initializable {
     @FXML private GridPane gridPane;
-    private int gridSize = 3;
+    private int gridSize = 4;
     @FXML private TextField currentWordField;
     @FXML private HBox hBox;
     @FXML private VBox vBox;
@@ -29,20 +32,25 @@ public class ViewController implements Initializable {
     private int clickedPaneColor = 255;
     private Stack<Pane> clickedPaneStack;
 
+    Boggle boggle;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //Textfield is a representation, can't be edited by the user
-        currentWordField.setEditable(false);
-        currentWordField.setMouseTransparent(true);
-        currentWordField.setFocusTraversable(false);
-        //TextArea is a representation of the found words, so not editable by user
+//        currentWordField.setEditable(false);
+//        currentWordField.setMouseTransparent(true);
+//        currentWordField.setFocusTraversable(false);
+//        //TextArea is a representation of the found words, so not editable by user
         foundWordsField.setEditable(false);
         foundWordsField.setMouseTransparent(true);
         foundWordsField.setFocusTraversable(false);
-        //TextArea is a representation of the found words, so not editable by user
-        currentAllowedWordsField.setEditable(false);
-        currentAllowedWordsField.setFocusTraversable(false);
+//        //TextArea is a representation of the found words, so not editable by user
+//        currentAllowedWordsField.setEditable(false);
+//        currentAllowedWordsField.setFocusTraversable(false);
 
+
+        boggle = new Boggle(gridSize);
+        boggle.printGrid();
 
         //Choose wordlist from textfile(seperated by line)
         chooseFile = new ChooseFile();
@@ -51,10 +59,10 @@ public class ViewController implements Initializable {
         this.wordList = chooseFile.getChosenFileInList();
 
         //Current selected panes are stored in this list
-        this.selectedPanes = new ArrayList<>();
+        //this.selectedPanes = new ArrayList<>();
 
         //Clicked panes are stored in order in this stack
-        this.clickedPaneStack = new Stack<>();
+        //this.clickedPaneStack = new Stack<>();
 
         //Fix hbox position
         gridPane.widthProperty().addListener((observableValue, oldSceneWidth, newSceneWidth)->{
@@ -193,6 +201,24 @@ public class ViewController implements Initializable {
         }
     }
 
+    /**
+     * Solve the boggle
+     */
+    public void solveBoggle() {
+        Thread thread = new Thread() {
+            public void run() {
+                boggle.solveGrid();
+            }
+        };
+
+        thread.start();
+
+        for(String foundWord : boggle.getFoundWords()) {
+            this.foundWordsField.appendText(foundWord + "\n");
+        }
+
+    }
+
     public void deselectItem(Pane pane){
         this.clickedPaneColor += 15;
 
@@ -225,19 +251,18 @@ public class ViewController implements Initializable {
         int columns = gridSize;
         int rows = gridSize;
 
-        //create board and add random characters
-        for(int col=0; col<gridSize; col++){
-            for(int row=0; row<gridSize; row++){
+        Field[][] fields = boggle.getFields();
+
+        for(int x = 0; x < fields.length; x++) {
+            for(int y = 0; y < fields[x].length; y++) {
                 Pane pane = new Pane();
                 pane.setStyle(
                         "-fx-background-color:white;" +
                                 "-fx-border-color: black;" +
                                 "-fx-border-width: 1 1 1 1;");
 
-                //Position label in center of pane
-                Label label = new Label(String.valueOf(getRandomCharacter()));
+                Label label = new Label(fields[x][y].getValue());
 
-                //Fix hbox position
                 pane.widthProperty().addListener((observableValue, oldSceneWidth, newSceneWidth)->{
                     label.setLayoutX(20);
                     double lowestValue = Math.min(pane.getWidth(), pane.getHeight());
@@ -250,20 +275,8 @@ public class ViewController implements Initializable {
                 });
 
                 pane.getChildren().add(label);
+                gridPane.add(pane,x,y);
 
-                //Add listeners to this pain
-                //When this pain is clicked
-                pane.setOnMouseClicked(e->{
-                    System.out.println("Row: "+ GridPane.getRowIndex(pane));
-                    System.out.println("column: "+ GridPane.getColumnIndex(pane));
-
-                    clickPane(pane);
-
-                    currentWordField.setText(getCurrentWord());
-                    System.out.println(getCurrentWord());
-                });
-
-                gridPane.add(pane,col,row);
             }
         }
     }
