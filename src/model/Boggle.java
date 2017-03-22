@@ -16,6 +16,7 @@ public class Boggle {
     Dictionary dictionary = new Dictionary(new File("src/wordlist.txt"));
     ArrayList<String> wordList = dictionary.getWordList();
     private HashSet<String> foundWords = new HashSet<>();
+    int combinations = 0;
 
 
     public Boggle(int rowSize, int colSize){
@@ -101,7 +102,7 @@ public class Boggle {
                 Field currentField = grid[row][col];
 
                 ArrayList<Field> dissalowedFields = new ArrayList();
-                getCombinations(currentField, currentField.getValue(), dissalowedFields);
+                getCombinations(currentField, currentField.getValue());
             }
         }
         long end_time = System.nanoTime();
@@ -126,27 +127,32 @@ public class Boggle {
      * @param stringCombination Can be empty when starting
      * @param disallowedFields Fields that are not allowed to be used for a combination, fields are also added to this list so a combination does not happen twice
      */
-    public void getCombinations(Field currentField, String stringCombination, ArrayList disallowedFields){
+    public void getCombinations(Field currentField, String stringCombination){
+//        combinations++;
+//        System.out.println(combinations);
         //As long as we check a combo this field can't be used again
-        disallowedFields.add(currentField);
+        currentField.setUsed(true);
 
         if(wordList.contains(stringCombination)){
             foundWords.add(stringCombination);
         }
 
+        combinations++;
+
         for(Field neighbor: currentField.getNeighborList()){
             //Check if the currentfield can be used
-            if(!disallowedFields.contains(neighbor)){
+            if(!neighbor.isUsed()){
                 String newStringCombination = stringCombination + neighbor.getValue();
-                if(wordList.contains(newStringCombination)){
+                if(wordList.contains(newStringCombination) && newStringCombination.length() >= 3){
                     foundWords.add(newStringCombination);
                 }
-                getCombinations(neighbor, newStringCombination, disallowedFields);
+                getCombinations(neighbor, newStringCombination);
             }
         }
 
         //Field can be used again for a new combination
-        disallowedFields.remove(currentField);
+        currentField.setUsed(false);
+        System.out.println("" + combinations);
     }
 
     /**
@@ -176,5 +182,13 @@ public class Boggle {
                 System.out.println();
             }
         }
+    }
+
+    public HashSet<String> getFoundWords() {
+        return this.foundWords;
+    }
+
+    public Field[][] getFields() {
+        return grid;
     }
 }
