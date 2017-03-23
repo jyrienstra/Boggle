@@ -7,8 +7,8 @@ import java.util.LinkedList;
  * Created by jouke on 21-3-2017.
  */
 public class Field {
-    char value;
-    ArrayList<Field> neighBors = new ArrayList<>();
+    String value;
+    LinkedList<Field> neighBors = new LinkedList<>();
     boolean used = false;
 
     public Field(){
@@ -28,14 +28,14 @@ public class Field {
      * @return String
      */
     public String getValue(){
-        return java.lang.Character.toString(value);
+        return value;
     }
 
     /**
      * Get the neighbors as a list
      * @return ArrayList
      */
-    public ArrayList<Field> getNeighborList(){
+    public LinkedList<Field> getNeighborList(){
         return neighBors;
     }
 

@@ -5,6 +5,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedList;
 
 /**
  * Created by jouke on 21-3-2017.
@@ -99,10 +100,9 @@ public class Boggle {
         long start_time = System.nanoTime();
         for(int row = 0; row < rows; row++){
             for(int col = 0; col < cols; col++){
-                Field currentField = grid[row][col];
+//                Field currentField = grid[row][col];
 
-                ArrayList<Field> dissalowedFields = new ArrayList();
-                getCombinations(currentField, currentField.getValue());
+                getCombinations(grid[row][col], grid[row][col].getValue());
             }
         }
         long end_time = System.nanoTime();
@@ -125,34 +125,28 @@ public class Boggle {
      * Appends a currentString so it can be called recursively for all the fields neighbours
      * @param currentField The field you want to get the combinations from
      * @param stringCombination Can be empty when starting
-     * @param disallowedFields Fields that are not allowed to be used for a combination, fields are also added to this list so a combination does not happen twice
      */
     public void getCombinations(Field currentField, String stringCombination){
-//        combinations++;
-//        System.out.println(combinations);
-        //As long as we check a combo this field can't be used again
         currentField.setUsed(true);
 
-        if(wordList.contains(stringCombination)){
-            foundWords.add(stringCombination);
-        }
+//        if(wordList.contains(stringCombination)){
+//            foundWords.add(stringCombination);
+//        }
 
-        combinations++;
+//        combinations++;
+        String newStringCombination;
 
         for(Field neighbor: currentField.getNeighborList()){
             //Check if the currentfield can be used
             if(!neighbor.isUsed()){
-                String newStringCombination = stringCombination + neighbor.getValue();
-                if(wordList.contains(newStringCombination) && newStringCombination.length() >= 3){
-                    foundWords.add(newStringCombination);
-                }
+                newStringCombination = stringCombination + neighbor.getValue();
                 getCombinations(neighbor, newStringCombination);
             }
         }
 
         //Field can be used again for a new combination
         currentField.setUsed(false);
-        System.out.println("" + combinations);
+//        System.out.println("" + combinations);
     }
 
     /**
