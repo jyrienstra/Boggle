@@ -28,18 +28,12 @@
                      </HBox>
                      <HBox fx:id="hBox" layoutX="14.0" layoutY="316.0" prefHeight="31.0" prefWidth="744.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
                          <children>
-                             <Button onAction="#submitWord" text="Submit word" />
-                             <TextField fx:id="currentWordField" prefHeight="31.0" prefWidth="113.0">
-                                 <HBox.margin>
-                                     <Insets left="8.0" />
-                                 </HBox.margin>
-                             </TextField>
                              <Button onAction="#newBoard" text="New board">
                                  <HBox.margin>
                                      <Insets left="8.0" />
                                  </HBox.margin>
                              </Button>
-                        <Button mnemonicParsing="false" text="Oplossen" onAction="#solveBoggle">
+                        <Button mnemonicParsing="false" text="Solve" onAction="#solveBoggle">
                            <HBox.margin>
                               <Insets left="8.0" />
                            </HBox.margin>
@@ -49,27 +43,6 @@
                  </children>
              </AnchorPane>
          </content>
-        </Tab>
-        <Tab fx:id="Settings" text="Settings">
-            <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="451.0" prefWidth="800.0">
-                    <children>
-                        <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
-                            <Button onAction="#changeWordList" text="Change wordlist" />
-                            <Button onAction="#showWordList" text="Show wordlist">
-                                <VBox.margin>
-                                    <Insets top="8.0" />
-                                </VBox.margin>
-                            </Button>
-                            <TextArea fx:id="currentAllowedWordsField" text="Current allowed words:">
-                                <VBox.margin>
-                                    <Insets top="8.0" />
-                                </VBox.margin>
-                            </TextArea>
-                        </VBox>
-                    </children>
-                </AnchorPane>
-            </content>
         </Tab>
     </tabs>
 </TabPane>

@@ -14,7 +14,10 @@ public class Dictionary {
     File file;
 
     public Dictionary(File file){
-        //    File file = new File("src/wordlist.txt"); //set default file to dutch
+        this.file = file;
+    }
+
+    public void setFile(File file){
         this.file = file;
     }
 
