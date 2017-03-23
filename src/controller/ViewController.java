@@ -269,7 +269,7 @@ public class ViewController implements Initializable {
                 });
 
                 pane.getChildren().add(label);
-                gridPane.add(pane,x,y);
+                gridPane.add(pane, y, x);
 
             }
         }
