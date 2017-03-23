@@ -28,11 +28,6 @@
                      </HBox>
                      <HBox fx:id="hBox" layoutX="14.0" layoutY="316.0" prefHeight="31.0" prefWidth="744.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
                          <children>
-                             <Button onAction="#newBoard" text="New board">
-                                 <HBox.margin>
-                                     <Insets left="8.0" />
-                                 </HBox.margin>
-                             </Button>
                         <Button mnemonicParsing="false" text="Solve" onAction="#solveBoggle">
                            <HBox.margin>
                               <Insets left="8.0" />

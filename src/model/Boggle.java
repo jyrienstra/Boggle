@@ -95,8 +95,6 @@ public class Boggle {
         long start_time = System.nanoTime();
         for(int row = 0; row < rows; row++){
             for(int col = 0; col < cols; col++){
-//                Field currentField = grid[row][col];
-
                 getCombinations(grid[row][col], grid[row][col].getValue());
             }
         }
@@ -173,9 +171,5 @@ public class Boggle {
 
     public HashSet<String> getFoundWords() {
         return this.foundWords;
-    }
-
-    public Field[][] getFields() {
-        return grid;
     }
 }

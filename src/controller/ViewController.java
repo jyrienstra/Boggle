@@ -65,21 +65,6 @@ public class ViewController implements Initializable {
     }
 
     /**
-     * Insert new values in the board
-     */
-    public void newBoard() {
-        for (Node node : gridPane.getChildren()) {
-            if (node instanceof Pane) {
-                for (Node n : ((Pane) node).getChildren()) {
-                    if (n instanceof Label) {
-                        Label currentLabel = (Label) n;
-                    }
-                }
-            }
-        }
-    }
-
-    /**
      * Solve the boggle
      */
     public void solveBoggle() {
@@ -112,7 +97,7 @@ public class ViewController implements Initializable {
         int columns = gridSize;
         int rows = gridSize;
 
-        Field[][] fields = boggle.getFields();
+        Field[][] fields = boggle.getGrid();
 
         for(int x = 0; x < fields.length; x++) {
             for(int y = 0; y < fields[x].length; y++) {
