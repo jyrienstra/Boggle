@@ -2,10 +2,7 @@ package model;
 
 import java.io.File;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.*;
 
 /**
  * Created by jouke on 21-3-2017.
@@ -15,10 +12,8 @@ public class Boggle {
     int rows;
     int cols;
     Dictionary dictionary = new Dictionary(new File("src/wordlist.txt"));
-    ArrayList<String> wordList = dictionary.getWordList();
+    private HashSet<String> wordList = dictionary.getHashSet();
     private HashSet<String> foundWords = new HashSet<>();
-    int combinations = 0;
-
 
     public Boggle(int rowSize, int colSize){
         this.rows = rowSize;
@@ -129,11 +124,10 @@ public class Boggle {
     public void getCombinations(Field currentField, String stringCombination){
         currentField.setUsed(true);
 
-//        if(wordList.contains(stringCombination)){
-//            foundWords.add(stringCombination);
-//        }
+        if(wordList.contains(stringCombination)){
+            foundWords.add(stringCombination);
+        }
 
-//        combinations++;
         String newStringCombination;
 
         for(Field neighbor: currentField.getNeighborList()){
@@ -146,7 +140,6 @@ public class Boggle {
 
         //Field can be used again for a new combination
         currentField.setUsed(false);
-//        System.out.println("" + combinations);
     }
 
     /**
