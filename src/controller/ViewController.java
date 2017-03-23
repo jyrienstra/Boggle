@@ -205,13 +205,7 @@ public class ViewController implements Initializable {
      * Solve the boggle
      */
     public void solveBoggle() {
-        Thread thread = new Thread() {
-            public void run() {
-                boggle.solveGrid();
-            }
-        };
-
-        thread.start();
+        boggle.solveGrid();
 
         for(String foundWord : boggle.getFoundWords()) {
             this.foundWordsField.appendText(foundWord + "\n");
