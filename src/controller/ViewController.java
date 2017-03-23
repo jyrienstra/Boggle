@@ -68,8 +68,13 @@ public class ViewController implements Initializable {
      * Solve the boggle
      */
     public void solveBoggle() {
+        //Clear textarea and set default text
+        foundWordsField.clear();
+        foundWordsField.appendText("Found words: \n");
+
         boggle.solveGrid();
 
+        //Update textarea
         for(String foundWord : boggle.getFoundWords()) {
             this.foundWordsField.appendText(foundWord + "\n");
         }
