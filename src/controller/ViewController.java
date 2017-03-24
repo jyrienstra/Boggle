@@ -2,10 +2,8 @@ package controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import model.Boggle;
@@ -19,18 +17,10 @@ import java.util.*;
 public class ViewController implements Initializable {
     @FXML private GridPane gridPane;
     private int gridSize = 4;
-    @FXML private TextField currentWordField;
     @FXML private HBox hBox;
-    @FXML private VBox vBox;
     @FXML private TextArea foundWordsField;
-    @FXML private TextArea currentAllowedWordsField;
-    private ArrayList<Pane> selectedPanes;
     private ArrayList<String> wordList;
-    private int wordsFound = 0;
     private ChooseFile chooseFile;
-
-    private int clickedPaneColor = 255;
-    private Stack<Pane> clickedPaneStack;
 
     Boggle boggle;
 
@@ -41,7 +31,6 @@ public class ViewController implements Initializable {
         foundWordsField.setFocusTraversable(false);
 
         boggle = new Boggle(gridSize);
-        boggle.printGrid();
 
         //Choose wordlist from textfile(seperated by line)
         chooseFile = new ChooseFile();
@@ -98,9 +87,6 @@ public class ViewController implements Initializable {
     }
 
     public void initBoard(int gridSize){
-        //temporary
-        int columns = gridSize;
-        int rows = gridSize;
 
         Field[][] fields = boggle.getGrid();
 
