@@ -56,7 +56,8 @@ public class Dictionary {
             String currentLine = null;
             try {
                 while ((currentLine = bufferedReader.readLine()) != null) {
-                    set.add(currentLine);
+                    if(currentLine.length() >= 3)
+                        set.add(currentLine);
                 }
             }catch (IOException i){
                 System.out.println(i.getStackTrace());
